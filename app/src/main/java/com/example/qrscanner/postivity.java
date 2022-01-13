@@ -36,13 +36,14 @@ public class postivity extends AppCompatActivity {
 
         if (extras != null) {
             value = extras.getString("key");
-
+            Log.e("email111",value);
             try {
                 URL url = new URL(value);
                 value = url.getQuery();
                 String[] arr = value.split("&",2);
                 email = arr[0];
                 room = arr[1];
+
                 arr = email.split("=",2);
                 email = arr[1];
                 arr = room.split("=",2);
@@ -67,17 +68,16 @@ public class postivity extends AppCompatActivity {
                 Post_interface post_interface = retrofit.create(Post_interface.class);
 
                 Post post = new Post(email,room);
-                //Log.e("email",post.getEmail());
+                Log.e("email",post.getEmail());
                 //Log.e("room_id",post.getRoom_id());
 
-                Call<Post> call = post_interface.createPost(post.getEmail(),post.getEmail());
+                Call<Post> call = post_interface.createPost(post.getEmail(),post.getRoom_id());
 
 
                 call.enqueue(new Callback<Post>() {
                     @Override
                     public void onResponse(Call<Post> call, Response<Post> response) {
                         TextView result_s = findViewById(R.id.url_show);
-                        //Log.e("test",response.body());
                         if(response.isSuccessful()){
                             result_s.setText("Data added with server response: " + response.code());
                             return;

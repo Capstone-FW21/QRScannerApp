@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Post {
 
-    @SerializedName("email")
+    //@SerializedName("email")
     private String email;
-    @SerializedName("room_id")
+    //@SerializedName("room_id")
     private String room_id;
 
     public Post(String email, String room_id){
