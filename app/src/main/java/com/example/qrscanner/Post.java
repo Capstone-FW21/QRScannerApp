@@ -1,27 +1,32 @@
 package com.example.qrscanner;
 
-public class Post {
-    private String email;
-    private String room;
+import com.google.gson.annotations.SerializedName;
 
-    public Post(String email, String room){
+public class Post {
+
+    @SerializedName("email")
+    private String email;
+    @SerializedName("room_id")
+    private String room_id;
+
+    public Post(String email, String room_id){
         this.email = email;
-        this.room = room;
+        this.room_id = room_id;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getRoom() {
-        return room;
+    public String getRoom_id() {
+        return room_id;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setRoom_id(String room_id) {
+        this.room_id = room_id;
     }
 }

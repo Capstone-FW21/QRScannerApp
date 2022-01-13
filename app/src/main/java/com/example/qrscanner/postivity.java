@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Logger;
 
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,11 +20,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class postivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postivity);
 
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(logging).build();
         Bundle extras = getIntent().getExtras(); //get QR from main activities
         String value ="";
         String email ="";
@@ -52,23 +59,25 @@ public class postivity extends AppCompatActivity {
                 value += " or no QR scanned, go back and try again";
             }
 
-            if(email != null && room != null){
+            if(email != "" && room != ""){
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://contact-api-dev-3sujih4x4a-uc.a.run.app/")
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create()).client(client)
                         .build();
                 Post_interface post_interface = retrofit.create(Post_interface.class);
 
                 Post post = new Post(email,room);
-                Log.e("email",post.getEmail());
-                Log.e("room",post.getRoom());
+                //Log.e("email",post.getEmail());
+                //Log.e("room_id",post.getRoom_id());
 
-                Call<Post> call = post_interface.createPost(post);
+                Call<Post> call = post_interface.createPost(post.getEmail(),post.getEmail());
+
 
                 call.enqueue(new Callback<Post>() {
                     @Override
                     public void onResponse(Call<Post> call, Response<Post> response) {
                         TextView result_s = findViewById(R.id.url_show);
+                        //Log.e("test",response.body());
                         if(response.isSuccessful()){
                             result_s.setText("Data added with server response: " + response.code());
                             return;
@@ -77,7 +86,6 @@ public class postivity extends AppCompatActivity {
                             result_s.setText("Error: " + response.code());
                             return;
                         }
-
 
                     }
 
@@ -88,11 +96,14 @@ public class postivity extends AppCompatActivity {
                     }
                 });
             }
+            else{
+                TextView result_s = findViewById(R.id.url_show);
+                result_s.setText(value);
+            }
 
         }
 
-        //TextView result_s = findViewById(R.id.url_show);
-        //result_s.setText(value);
+
 
 
     }
