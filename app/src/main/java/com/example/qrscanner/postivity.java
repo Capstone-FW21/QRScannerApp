@@ -71,12 +71,12 @@ public class postivity extends AppCompatActivity {
                 Log.e("email",post.getEmail());
                 //Log.e("room_id",post.getRoom_id());
 
-                Call<Post> call = post_interface.createPost(post.getEmail(),post.getRoom_id());
+                Call<String> call = post_interface.createPost(post.getEmail(),post.getRoom_id());
 
 
-                call.enqueue(new Callback<Post>() {
+                call.enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<Post> call, Response<Post> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         TextView result_s = findViewById(R.id.url_show);
                         if(response.isSuccessful()){
                             result_s.setText("Data added with server response: " + response.code());
@@ -86,11 +86,9 @@ public class postivity extends AppCompatActivity {
                             result_s.setText("Error: " + response.code());
                             return;
                         }
-
                     }
-
                     @Override
-                    public void onFailure(Call<Post> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
                         TextView result_s = findViewById(R.id.url_show);
                         result_s.setText("Failure!" + t.getMessage() );
                     }

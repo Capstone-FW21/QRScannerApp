@@ -17,6 +17,6 @@ public interface Post_interface {
     //@Headers( "accept: application/json")
     @POST("record_data")
     //@FormUrlEncoded
-    Call<Post> createPost(@Query("email") String email, @Query("room_id") String room_id);
+    Call<String> createPost(@Query("email") String email, @Query("room_id") String room_id);
     //Call<Post> createPost(@Body Post post);
 }
