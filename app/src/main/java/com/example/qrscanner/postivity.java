@@ -59,7 +59,7 @@ public class postivity extends AppCompatActivity {
                         .build();
                 Post_interface post_interface = retrofit.create(Post_interface.class);
 
-                Post post = new Post(email,room+"/");
+                Post post = new Post(email,room);
                 Log.e("email",post.getEmail());
                 Log.e("room",post.getRoom());
 
