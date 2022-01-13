@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -18,6 +21,7 @@ import com.google.zxing.Result;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String url = "";
     private CodeScanner mCodeScanner;
     boolean CameraPermission = false;
     final int CAMERA_PERM = 1;
@@ -48,12 +52,37 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                            TextView result_s = findViewById(R.id.resultScan);
+                            url = result.getText();
+                            result_s.setText(url);
                         }
                     });
 
                 }
             });
         }
+
+        Button btn_get = findViewById(R.id.get_btn);
+        btn_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent getIntent = new Intent(getApplicationContext(), getivity.class);
+                getIntent.putExtra("key",url);
+                startActivity(getIntent);
+            }
+        });
+
+        Button btn_post = findViewById(R.id.post_btn);
+        btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent getIntent = new Intent(getApplicationContext(), postivity.class);
+                getIntent.putExtra("key",url);
+                startActivity(getIntent);
+            }
+        });
 
     }
 
