@@ -49,15 +49,9 @@ public class postivity extends AppCompatActivity {
                 arr = room.split("=",2);
                 room = arr[1];
 
-                //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                //connection.setRequestMethod("POST");
-                //connection.setRequestProperty("Accept","application/json");
-                //connection.setDoOutput(true);
-                //connection.connect();
 
             } catch (Exception e) {
-                value = e.getMessage();
-                value += " or no QR scanned, go back and try again";
+                value = "No QR scanned or invalid QR code";
             }
 
             if(email != "" && room != ""){
@@ -69,7 +63,6 @@ public class postivity extends AppCompatActivity {
 
                 Post post = new Post(email,room);
                 Log.e("email",post.getEmail());
-                //Log.e("room_id",post.getRoom_id());
 
                 Call<String> call = post_interface.createPost(post.getEmail(),post.getRoom_id());
 
@@ -79,11 +72,12 @@ public class postivity extends AppCompatActivity {
                     public void onResponse(Call<String> call, Response<String> response) {
                         TextView result_s = findViewById(R.id.url_show);
                         if(response.isSuccessful()){
-                            result_s.setText("Data added with server response: " + response.code());
+                            result_s.setText("Data added with server response: " + response.code() + "\n\nThe following data has been added"
+                            + "\n\nEmail: " + post.getEmail() + "\nroom: " + post.getRoom_id());
                             return;
                         }
                         else{
-                            result_s.setText("Error: " + response.code());
+                            result_s.setText("Error: " + response.raw());
                             return;
                         }
                     }
