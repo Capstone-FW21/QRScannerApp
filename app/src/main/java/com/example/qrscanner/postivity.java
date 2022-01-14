@@ -71,7 +71,7 @@ public class postivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         TextView result_s = findViewById(R.id.url_show);
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()){
                             result_s.setText("Data added with server response: " + response.code() + "\n\nThe following data has been added"
                             + "\n\nEmail: " + post.getEmail() + "\nroom: " + post.getRoom_id());
                             return;
@@ -87,16 +87,10 @@ public class postivity extends AppCompatActivity {
                         result_s.setText("Failure!" + t.getMessage() );
                     }
                 });
-            }
-            else{
+            }            else{
                 TextView result_s = findViewById(R.id.url_show);
                 result_s.setText(value);
             }
-
         }
-
-
-
-
     }
 }
