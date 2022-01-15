@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dylan.000/Desktop/School work/Capstone/QRScannerApp/app/src/main/res/layout/activity_getivity.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Dylan.000/Desktop/School work/Capstone/QRScannerApp/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Dylan.000/Desktop/School work/Capstone/QRScannerApp/app/src/main/res/layout/activity_postivity.xml" value="0.2" />
+        <entry key="..\:/Users/Dylan.000/Desktop/School work/Capstone/QRScannerApp/app/src/main/res/layout/dialog_post.xml" value="0.2015625" />
         <entry key="..\:/Users/jsabi/AndroidStudioProjects/QRScannerApp/app/src/main/res/layout/activity_getivity.xml" value="0.31979166666666664" />
         <entry key="..\:/Users/jsabi/AndroidStudioProjects/QRScannerApp/app/src/main/res/layout/activity_main.xml" value="0.321875" />
         <entry key="..\:/Users/jsabi/AndroidStudioProjects/QRScannerApp/app/src/main/res/layout/activity_postivity.xml" value="0.36666666666666664" />
@@ -13,7 +17,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

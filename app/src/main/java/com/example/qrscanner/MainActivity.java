@@ -1,16 +1,19 @@
 package com.example.qrscanner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     boolean CameraPermission = false;
     final int CAMERA_PERM = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         askPermission();
         if (CameraPermission) {
 
-            scannerView.setOnClickListener(new View.OnClickListener(){
+            scannerView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
 
                     mCodeScanner.startPreview();
 
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent getIntent = new Intent(getApplicationContext(), getivity.class);
-                getIntent.putExtra("key",url);
+                getIntent.putExtra("key", url);
                 startActivity(getIntent);
             }
         });
@@ -77,24 +81,37 @@ public class MainActivity extends AppCompatActivity {
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                EditText edit = new EditText(MainActivity.this);
+                alert.setView(edit);
+                alert.setTitle("Enter Email!");
+                alert.setPositiveButton("Submit Post", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent getIntent = new Intent(getApplicationContext(), postivity.class);
+                        getIntent.putExtra("key", url);
+                        getIntent.putExtra("email", edit.getText().toString());
 
-                Intent getIntent = new Intent(getApplicationContext(), postivity.class);
-                getIntent.putExtra("key",url);
-                startActivity(getIntent);
+                        startActivity(getIntent);
+                        dialogInterface.dismiss();
+                    }
+                });
+                alert.show();
+
             }
         });
 
     }
 
-    private void askPermission(){
+    private void askPermission() {
 
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA},CAMERA_PERM);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM);
 
-            }else{
+            } else {
                 mCodeScanner.startPreview();
                 CameraPermission = true;
             }
@@ -103,9 +120,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
-    protected  void onPause(){
+    protected void onPause() {
         mCodeScanner.releaseResources();
         super.onPause();
     }

@@ -5,6 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.qrscanner.requests.JSONRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.logging.Logger;
@@ -30,67 +42,58 @@ public class postivity extends AppCompatActivity {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(logging).build();
         Bundle extras = getIntent().getExtras(); //get QR from main activities
-        String value ="";
-        String email ="";
-        String room ="";
-
-        if (extras != null) {
-            value = extras.getString("key");
-            Log.e("email111",value);
-            try {
-                URL url = new URL(value);
-                value = url.getQuery();
-                String[] arr = value.split("&",2);
-                email = arr[0];
-                room = arr[1];
-
-                arr = email.split("=",2);
-                email = arr[1];
-                arr = room.split("=",2);
-                room = arr[1];
+        String value = "";
+        String email = "";
+        String room = "";
 
 
-            } catch (Exception e) {
-                value = "No QR scanned or invalid QR code";
-            }
-
-            if(email != "" && room != ""){
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://contact-api-dev-3sujih4x4a-uc.a.run.app/")
-                        .addConverterFactory(GsonConverterFactory.create()).client(client)
-                        .build();
-                Post_interface post_interface = retrofit.create(Post_interface.class);
-
-                Post post = new Post(email,room);
-                Log.e("email",post.getEmail());
-
-                Call<String> call = post_interface.createPost(post.getEmail(),post.getRoom_id());
-
-
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        TextView result_s = findViewById(R.id.url_show);
-                        if (response.isSuccessful()){
-                            result_s.setText("Data added with server response: " + response.code() + "\n\nThe following data has been added"
-                            + "\n\nEmail: " + post.getEmail() + "\nroom: " + post.getRoom_id());
-                            return;
-                        }
-                        else{
-                            result_s.setText("Error: " + response.raw());
-                            return;
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        TextView result_s = findViewById(R.id.url_show);
-                        result_s.setText("Failure!" + t.getMessage() );
-                    }
-                });
-            }            else{
-                TextView result_s = findViewById(R.id.url_show);
-                result_s.setText(value);
-            }
+        if (extras == null) {
+            finish();
+            return;
         }
+        value = extras.getString("key");
+        Log.e("email111", extras.getString("email"));
+        email = extras.getString("email");
+        try {
+            String[] arr = value.split("=", 2);
+            room = arr[1];
+        } catch (Exception e) {
+            value = "No QR scanned or invalid QR code";
+            finish();
+        }
+
+        if (room.equalsIgnoreCase("")) {
+            finish();
+        }
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JSONObject bodyObject = new JSONObject();
+
+        try {
+            bodyObject.put("scan", new JSONObject().put("email", email).put("room_id", room));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            finish();
+        }
+        StringRequest request = new JSONRequest(Request.Method.POST, "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data", bodyObject, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.v("RESPONSE", response);
+                Toast toast = Toast.makeText(postivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
+                toast.show();
+
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                //Log.e("RESPONSE", error.getMessage());
+                Toast toast = Toast.makeText(postivity.this, "Error Submitting!\n" + error.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        queue.add(request);
+        queue.start();
+        finish();
     }
 }
