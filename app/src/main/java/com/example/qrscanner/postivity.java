@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -17,10 +18,6 @@ import com.example.qrscanner.requests.JSONRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URL;
-import java.util.logging.Logger;
-
 
 
 public class postivity extends AppCompatActivity {
@@ -51,14 +48,19 @@ public class postivity extends AppCompatActivity {
             value = "No QR scanned or invalid QR code";
             finish();
         }
-
         if (room.equalsIgnoreCase("")) {
             finish();
         }
+
+
         RequestQueue queue = Volley.newRequestQueue(this);
         JSONObject bodyObject = new JSONObject();
 
+
         try {
+            String[] arr = room.split("_",2);
+            room = arr[1];
+            Log.e("room",room);
             bodyObject.put("scan", new JSONObject().put("email", email).put("room_id", room));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -70,6 +72,7 @@ public class postivity extends AppCompatActivity {
                 Log.v("RESPONSE", response);
                 Toast toast = Toast.makeText(postivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
                 toast.show();
+                getSupportActionBar().setTitle("Room tracking Added");
 
             }
         }, new com.android.volley.Response.ErrorListener() {
@@ -84,6 +87,23 @@ public class postivity extends AppCompatActivity {
 
         queue.add(request);
         queue.start();
-        finish();
+        //finish();
+
+        Button btn_scan = findViewById(R.id.scan_more);
+        btn_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button btn_exit = findViewById(R.id.reset_user);
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
+            }
+        });
+
     }
 }

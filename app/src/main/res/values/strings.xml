@@ -11,4 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="create_new_account">Create new account</string>
     <string name="login">Login to existing</string>
+    <string name="account_manager">Account Manager</string>
+    <string name="add_scanned_room_id">Add Scanned Room Id</string>
 </resources>

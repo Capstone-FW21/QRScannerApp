@@ -24,16 +24,19 @@ import com.google.zxing.Result;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url = "";
+    private String url = null;
+    private String name = null;
     private CodeScanner mCodeScanner;
     boolean CameraPermission = false;
     final int CAMERA_PERM = 1;
-    private String active_email = "";
+    private String active_email = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Scan a room QR code");
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         askPermission();
@@ -56,10 +59,14 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
-                            TextView result_s = findViewById(R.id.resultScan);
+                            //Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                             url = result.getText();
-                            result_s.setText(url);
+                            String[] arr = url.split("=",2);
+
+                            if(name == null)
+                                getSupportActionBar().setTitle("who" + " visits " + arr[1] + "??");
+                            else
+                                getSupportActionBar().setTitle(name + " visits " + arr[1]);
                         }
                     });
 
@@ -82,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(active_email == null)
+                    Toast.makeText(MainActivity.this, "Please Select An Account First!", Toast.LENGTH_LONG).show();
+                else if(url == null)
+                    Toast.makeText(MainActivity.this, "Please Scan a room QR first", Toast.LENGTH_LONG).show();
+                else {
+                    Intent getIntent = new Intent(getApplicationContext(), postivity.class);
+                    getIntent.putExtra("key", url);
+                    getIntent.putExtra("email", active_email);
+                    startActivity(getIntent);
+
+                }
+            }
+        });
+
+
+        /*btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 EditText edit = new EditText(MainActivity.this);
                 alert.setView(edit);
@@ -91,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent getIntent = new Intent(getApplicationContext(), postivity.class);
                         getIntent.putExtra("key", url);
-                        getIntent.putExtra("email", edit.getText().toString());
+                        //getIntent.putExtra("email", edit.getText().toString());
+                        getIntent.putExtra("email", active_email);
 
                         startActivity(getIntent);
                         dialogInterface.dismiss();
@@ -100,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
 
             }
-        });
+        });*/
 
     }
 
@@ -111,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             if (data.hasExtra("email")) {
                 String name = data.getExtras().getString("first") + " " + data.getExtras().getString("last");
                 getSupportActionBar().setTitle(name);
+                this.name = name;
                 active_email = data.getExtras().getString("email");
             }
         }
