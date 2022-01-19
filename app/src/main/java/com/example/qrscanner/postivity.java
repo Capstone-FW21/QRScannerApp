@@ -30,7 +30,7 @@ public class postivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postivity);
-        
+
         Bundle extras = getIntent().getExtras(); //get QR from main activities
         String value = "";
         String email = "";

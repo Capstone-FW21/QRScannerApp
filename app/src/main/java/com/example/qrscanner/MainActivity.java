@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     boolean CameraPermission = false;
     final int CAMERA_PERM = 1;
+    private String active_email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent getIntent = new Intent(getApplicationContext(), getivity.class);
                 getIntent.putExtra("key", url);
-                startActivity(getIntent);
+                startActivityForResult(getIntent,111);
             }
         });
 
@@ -101,6 +102,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 111) {
+            if (data.hasExtra("email")) {
+                String name = data.getExtras().getString("first") + " " + data.getExtras().getString("last");
+                getSupportActionBar().setTitle(name);
+                active_email = data.getExtras().getString("email");
+            }
+        }
     }
 
     private void askPermission() {
