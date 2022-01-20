@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle(name);
                 this.name = name;
                 active_email = data.getExtras().getString("email");
+                Toast.makeText(MainActivity.this, "Tab to scan", Toast.LENGTH_LONG).show();
             }
         }
     }
