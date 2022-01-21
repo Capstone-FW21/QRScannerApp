@@ -13,4 +13,11 @@
     <string name="login">Login to existing</string>
     <string name="account_manager">Account Manager</string>
     <string name="add_scanned_room_id">Add Scanned Room Id</string>
+    <string name="finish">Finish</string>
+    <string name="picture_of_my_qr">picture_of_my_qr</string>
+    <string name="my_qr">My QR</string>
+    <string name="help">Help</string>
+    <string name="scan_qr_button">Scan QR button</string>
+    <string name="covid_tracking_capstone_team_2022">Covid Tracking Capstone Team @ 2022</string>
+    <string name="settings">SETTINGS</string>
 </resources>
