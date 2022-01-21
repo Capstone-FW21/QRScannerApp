@@ -59,9 +59,20 @@ public class MainActivity extends AppCompatActivity {
         Button btn_help = findViewById(R.id.help_btn);
         btn_help.setOnClickListener(v -> {
 
-
+            Intent getIntent = new Intent(getApplicationContext(), HelpActivity.class);
+            startActivity(getIntent);
 
         });
+
+        //Setting button onclick
+        Button btn_setting = findViewById(R.id.setting_btn);
+        btn_setting.setOnClickListener(v -> {
+
+            Intent getIntent = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(getIntent);
+
+        });
+
 
         //Scan a qr code button on click
         FloatingActionButton camera_btn = findViewById(R.id.camera_btn);
