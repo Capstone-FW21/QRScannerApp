@@ -1,20 +1,17 @@
 package com.example.qrscanner;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     boolean CameraPermission = false;
     final int CAMERA_PERM = 1;
-    private String active_email = null;
+    public static String activeEmail = null;
 
 
     @Override
@@ -61,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             //Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
                             url = result.getText();
-                            String[] arr = url.split("=",2);
+                            String[] arr = url.split("=", 2);
 
-                            if(name == null)
+                            if (name == null)
                                 getSupportActionBar().setTitle("who" + " visits " + arr[1] + "??");
                             else
                                 getSupportActionBar().setTitle(name + " visits " + arr[1]);
@@ -79,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent getIntent = new Intent(getApplicationContext(), getivity.class);
+                Intent getIntent = new Intent(getApplicationContext(), AccountActivity.class);
                 getIntent.putExtra("key", url);
-                startActivityForResult(getIntent,111);
+                startActivityForResult(getIntent, 111);
             }
         });
 
@@ -90,45 +87,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(active_email == null)
+                if (MainActivity.activeEmail == null)
                     Toast.makeText(MainActivity.this, "Please Select An Account First!", Toast.LENGTH_LONG).show();
-                else if(url == null)
+                else if (url == null)
                     Toast.makeText(MainActivity.this, "Please Scan a room QR first", Toast.LENGTH_LONG).show();
                 else {
-                    Intent getIntent = new Intent(getApplicationContext(), postivity.class);
+                    Intent getIntent = new Intent(getApplicationContext(), ScanActivity.class);
+                    Log.v("MAIN_ACTIVITY", url);
                     getIntent.putExtra("key", url);
-                    getIntent.putExtra("email", active_email);
                     startActivity(getIntent);
-
                 }
             }
         });
-
-
-        /*btn_post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                EditText edit = new EditText(MainActivity.this);
-                alert.setView(edit);
-                alert.setTitle("Enter Email!");
-                alert.setPositiveButton("Submit Post", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent getIntent = new Intent(getApplicationContext(), postivity.class);
-                        getIntent.putExtra("key", url);
-                        //getIntent.putExtra("email", edit.getText().toString());
-                        getIntent.putExtra("email", active_email);
-
-                        startActivity(getIntent);
-                        dialogInterface.dismiss();
-                    }
-                });
-                alert.show();
-
-            }
-        });*/
-
     }
 
     @Override
@@ -139,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 String name = data.getExtras().getString("first") + " " + data.getExtras().getString("last");
                 getSupportActionBar().setTitle(name);
                 this.name = name;
-                active_email = data.getExtras().getString("email");
-                Toast.makeText(MainActivity.this, "Tab to scan", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Tap to scan", Toast.LENGTH_LONG).show();
             }
         }
     }

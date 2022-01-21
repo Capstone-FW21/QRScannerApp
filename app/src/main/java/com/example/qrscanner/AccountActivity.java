@@ -2,23 +2,17 @@ package com.example.qrscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -26,11 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Map;
 
 
-public class getivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
 
     private TextView data_display;
     private String first_name;
@@ -60,7 +53,7 @@ public class getivity extends AppCompatActivity {
         Button btn_login = findViewById(R.id.login2existing);
         btn_login.setOnClickListener(v -> {
             if(first_name == null && last_name == null)
-                Toast.makeText(getivity.this, "Please Select An Account First!", Toast.LENGTH_LONG).show();
+                Toast.makeText(AccountActivity.this, "Please Select An Account First!", Toast.LENGTH_LONG).show();
             else
                 send_back();
         });
@@ -129,7 +122,7 @@ public class getivity extends AppCompatActivity {
         Intent result = new Intent();
         result.putExtra("first", first_name);
         result.putExtra("last", last_name);
-        result.putExtra("email", email);
+        MainActivity.activeEmail = email;
         setResult(RESULT_OK, result);
         finish();
     }

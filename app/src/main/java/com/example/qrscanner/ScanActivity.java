@@ -20,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class postivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
 
 
     @Override
@@ -30,7 +30,6 @@ public class postivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras(); //get QR from main activities
         String value = "";
-        String email = "";
         String room = "";
 
 
@@ -39,8 +38,6 @@ public class postivity extends AppCompatActivity {
             return;
         }
         value = extras.getString("key");
-        Log.e("email111", extras.getString("email"));
-        email = extras.getString("email");
         try {
             String[] arr = value.split("=", 2);
             room = arr[1];
@@ -58,10 +55,7 @@ public class postivity extends AppCompatActivity {
 
 
         try {
-            String[] arr = room.split("_",2);
-            room = arr[1];
-            Log.e("room",room);
-            bodyObject.put("scan", new JSONObject().put("email", email).put("room_id", room));
+            bodyObject.put("scan", new JSONObject().put("email", MainActivity.activeEmail).put("room_id", room));
         } catch (JSONException e) {
             e.printStackTrace();
             finish();
@@ -70,40 +64,24 @@ public class postivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.v("RESPONSE", response);
-                Toast toast = Toast.makeText(postivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(ScanActivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
                 toast.show();
                 getSupportActionBar().setTitle("Room tracking Added");
-
             }
         }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 //Log.e("RESPONSE", error.getMessage());
-                Toast toast = Toast.makeText(postivity.this, "Error Submitting!\n" + error.getMessage(), Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(ScanActivity.this, "Error Submitting!\n" + error.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
             }
         });
 
         queue.add(request);
         queue.start();
-        //finish();
+        finish();
 
-        Button btn_scan = findViewById(R.id.scan_more);
-        btn_scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Button btn_exit = findViewById(R.id.reset_user);
-        btn_exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.exit(0);
-            }
-        });
 
     }
 }

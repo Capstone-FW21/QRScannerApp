@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRScanner">
         <activity
-            android:name=".postivity"
+            android:name=".ScanActivity"
             android:exported="false" />
         <activity
-            android:name=".getivity"
+            android:name=".AccountActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
