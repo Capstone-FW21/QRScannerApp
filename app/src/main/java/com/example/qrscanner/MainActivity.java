@@ -31,10 +31,7 @@ public class MainActivity extends AppCompatActivity {
         //Account manager button on click
         Button btn_get = findViewById(R.id.account_btn);
         btn_get.setOnClickListener(v -> {
-
-            Intent getIntent = new Intent(getApplicationContext(), AccountActivity.class);
-            startActivityForResult(getIntent, 111);
-
+            StartActivityR(AccountActivity.class, 111);
         });
 
         //My QR code button on click
@@ -42,15 +39,9 @@ public class MainActivity extends AppCompatActivity {
         btn_myqr.setOnClickListener(v -> {
 
             if (activeEmail == null) {
-
-                Intent getIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                startActivityForResult(getIntent, 111);
-
+                StartActivityR(AccountActivity.class, 111);
             } else {
-
-                Intent getIntent = new Intent(getApplicationContext(), MyqrActivity.class);
-                startActivity(getIntent);
-
+                StartActivity(MyqrActivity.class);
             }
 
         });
@@ -58,19 +49,13 @@ public class MainActivity extends AppCompatActivity {
         //Help button onclick
         Button btn_help = findViewById(R.id.help_btn);
         btn_help.setOnClickListener(v -> {
-
-            Intent getIntent = new Intent(getApplicationContext(), HelpActivity.class);
-            startActivity(getIntent);
-
+            StartActivity(HelpActivity.class);
         });
 
         //Setting button onclick
         Button btn_setting = findViewById(R.id.setting_btn);
         btn_setting.setOnClickListener(v -> {
-
-            Intent getIntent = new Intent(getApplicationContext(), SettingActivity.class);
-            startActivity(getIntent);
-
+            StartActivity(SettingActivity.class);
         });
 
 
@@ -79,14 +64,11 @@ public class MainActivity extends AppCompatActivity {
         camera_btn.setOnClickListener(v -> {
 
             if(activeEmail == null){
-                Intent getIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                startActivityForResult(getIntent, 111);
+                StartActivityR(AccountActivity.class, 111);
             }
             else {
-                Intent getIntent = new Intent(getApplicationContext(), CameraActivity.class);
-                startActivity(getIntent);
+                StartActivity(CameraActivity.class);
             }
-
         });
     }
 
@@ -101,6 +83,18 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(MainActivity.this, activeEmail, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void StartActivity(Class<?> the_activity){
+        Intent getIntent = new Intent(getApplicationContext(),the_activity);
+        getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(getIntent);
+    }
+
+    public void StartActivityR(Class<?> the_activity, int code){
+        Intent getIntent = new Intent(getApplicationContext(),the_activity);
+        getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivityForResult(getIntent, code);
     }
 
 
