@@ -68,5 +68,15 @@
             android:orientation="vertical" />
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="191dp"
+        android:layout_height="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/login2existing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_acc_btn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

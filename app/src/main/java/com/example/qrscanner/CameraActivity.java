@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -76,6 +81,19 @@ public class CameraActivity extends AppCompatActivity {
                 }
             });
         }
+
+        Button web_btn = findViewById(R.id.open_web);
+        web_btn.setOnClickListener(v -> {
+            String url = "http://34.134.138.81/";
+            Intent web = new Intent(Intent.ACTION_VIEW);
+            web.setData(Uri.parse(url));
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("email", MainActivity.activeEmail);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(CameraActivity.this, "Email Copied!", Toast.LENGTH_SHORT).show();
+            startActivity(web);
+        });
+
     }
     private void askPermission() {
 

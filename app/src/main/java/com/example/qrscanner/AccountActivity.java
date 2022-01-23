@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +31,14 @@ public class AccountActivity extends AppCompatActivity {
     private String first_name;
     private String last_name;
     private String email;
+    private ProgressBar pbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_getivity);
+        setContentView(R.layout.activity_account);
         getSupportActionBar().setTitle("Account Manager");
+        pbar = findViewById(R.id.pBar);
 
         //check if existing saved account exist
         File f = new File(
@@ -47,13 +51,16 @@ public class AccountActivity extends AppCompatActivity {
 
         Button btn_new_account = findViewById(R.id.create_acc_btn);
         btn_new_account.setOnClickListener(v -> {
+            pbar.setProgress(25);
             create_account();
+            Toast.makeText(AccountActivity.this, "Account Created!", Toast.LENGTH_LONG).show();
         });
 
         Button btn_login = findViewById(R.id.login2existing);
         btn_login.setOnClickListener(v -> {
             if(first_name == null && last_name == null)
-                Toast.makeText(AccountActivity.this, "Please Select An Account First!", Toast.LENGTH_LONG).show();
+                Snackbar.make(v, "Select an account first!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             else
                 send_back();
         });
@@ -92,15 +99,18 @@ public class AccountActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/student";
 
+
         StringRequest studentRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     try {
+
                         //parse the response
                         JSONObject student = new JSONObject(response);
                         first_name = student.getString("first_name");
                         last_name = student.getString("last_name");
                         email = student.getString("email");
-                        data_display.setText("Name: " + first_name + " " + last_name + "\nEmail: " + email);
+                        //data_display.setText("Name: " + first_name + " " + last_name + "\nEmail: " + email);
+
 
                         //save account to locally
                         SharedPreferences sharedPreferences = getSharedPreferences("account_list", MODE_PRIVATE);
@@ -108,13 +118,14 @@ public class AccountActivity extends AppCompatActivity {
                         editor.putString(first_name + "_" + last_name, email);
                         editor.commit();
 
+                        pbar.setProgress(100);
                         send_back();
 
                     } catch (JSONException e) {
                         data_display.setText(e.getMessage());
                     }
                 }, error -> data_display.setText("Error: " + error.getMessage()));
-
+        pbar.setProgress(50);
         queue.add(studentRequest);
     }
 
@@ -126,4 +137,6 @@ public class AccountActivity extends AppCompatActivity {
         setResult(RESULT_OK, result);
         finish();
     }
+
+
 }
