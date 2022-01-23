@@ -41,6 +41,14 @@
             android:minHeight="48dp"
             android:paddingTop="10dp"
             android:text="Remember Last Person" />
+
+        <Button
+            android:id="@+id/rm_accounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Remove existing accounts" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
