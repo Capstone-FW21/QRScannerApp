@@ -22,15 +22,19 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
     public static String activeEmail = null;
+    public static int activeId = 0;
     public String name = null;
-    private int intro = 0;
+    private Boolean intro = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StartActivity(Intropage.class);
+        if(intro) {
+            intro = false;
+            StartActivity(Intropage.class);
+        }
 
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Cov-19 Tracker");

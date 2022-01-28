@@ -31,6 +31,7 @@ public class AccountActivity extends AppCompatActivity {
     private String first_name;
     private String last_name;
     private String email;
+    private int id;
     private ProgressBar pbar;
 
     @Override
@@ -47,6 +48,10 @@ public class AccountActivity extends AppCompatActivity {
             Button btn_login = findViewById(R.id.login2existing);
             btn_login.setVisibility(View.VISIBLE);
             show_accounts();
+        }
+        else{
+            Button btn_login = findViewById(R.id.login2existing);
+            btn_login.setVisibility(View.GONE);
         }
 
         Button btn_new_account = findViewById(R.id.create_acc_btn);
@@ -83,10 +88,12 @@ public class AccountActivity extends AppCompatActivity {
     }
     View.OnClickListener getOnClickDoSomething(Button btn, String name, String email2)  {
         return v -> {
-            String[] arr = name.split("_",2);
+            String[] arr = name.split("_",3);
             first_name = arr[0];
             last_name = arr[1];
             email = email2;
+            id = Integer.parseInt(arr[2]);
+
             btn.setText("Login as " + arr[0] + " " + arr[1]);
         };
     }
@@ -106,16 +113,18 @@ public class AccountActivity extends AppCompatActivity {
 
                         //parse the response
                         JSONObject student = new JSONObject(response);
+                        id = student.getInt("personal_id");
                         first_name = student.getString("first_name");
                         last_name = student.getString("last_name");
                         email = student.getString("email");
-                        //data_display.setText("Name: " + first_name + " " + last_name + "\nEmail: " + email);
+
+                        //data_display.setText("Name: " + first_name + " " + last_name + "\nEmail: " + email+ "\nid: " + id);
 
 
                         //save account to locally
                         SharedPreferences sharedPreferences = getSharedPreferences("account_list", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(first_name + "_" + last_name, email);
+                        editor.putString(first_name + "_" + last_name + "_" + id, email);
                         editor.commit();
 
                         pbar.setProgress(100);
@@ -134,6 +143,7 @@ public class AccountActivity extends AppCompatActivity {
         result.putExtra("first", first_name);
         result.putExtra("last", last_name);
         MainActivity.activeEmail = email;
+        MainActivity.activeId = id;
         setResult(RESULT_OK, result);
         finish();
     }
