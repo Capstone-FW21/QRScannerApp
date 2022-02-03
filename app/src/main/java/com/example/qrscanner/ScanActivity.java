@@ -54,7 +54,7 @@ public class ScanActivity extends AppCompatActivity {
 
         try {
             Log.e("adas",room);
-            bodyObject.put("scan", new JSONObject().put("type", "ROOM").put("email", MainActivity.activeEmail).put("room_id", room));
+            bodyObject.put("scan", new JSONObject().put("type", "ROOM").put("email", MainActivity.activeEmail).put("scanned_id", room));
         } catch (JSONException e) {
             e.printStackTrace();
             finish();
