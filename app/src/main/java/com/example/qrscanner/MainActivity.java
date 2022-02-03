@@ -31,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            MainActivity.activeEmail = savedInstanceState.getString("activeEmail");
+        }
         if(intro) {
             intro = false;
             StartActivity(Intropage.class);
         }
 
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Cov-19 Tracker");
+        getSupportActionBar().setTitle("Covid-19 Tracker");
 
         //Account manager button on click
         Button btn_get = findViewById(R.id.account_btn);
@@ -81,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 StartActivity(CameraActivity.class);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("activeEmail", MainActivity.activeEmail);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -48,8 +49,7 @@ public class AccountActivity extends AppCompatActivity {
             Button btn_login = findViewById(R.id.login2existing);
             btn_login.setVisibility(View.VISIBLE);
             show_accounts();
-        }
-        else{
+        } else {
             Button btn_login = findViewById(R.id.login2existing);
             btn_login.setVisibility(View.GONE);
         }
@@ -63,7 +63,7 @@ public class AccountActivity extends AppCompatActivity {
 
         Button btn_login = findViewById(R.id.login2existing);
         btn_login.setOnClickListener(v -> {
-            if(first_name == null && last_name == null)
+            if (first_name == null && last_name == null)
                 Snackbar.make(v, "Select an account first!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             else
@@ -73,7 +73,7 @@ public class AccountActivity extends AppCompatActivity {
 
     }
 
-    public void show_accounts(){
+    public void show_accounts() {
         LinearLayout layout = findViewById(R.id.linear_layout_btns);
         SharedPreferences accountList = getSharedPreferences("account_list", MODE_PRIVATE);
         Map<String, ?> sp = accountList.getAll();
@@ -81,17 +81,21 @@ public class AccountActivity extends AppCompatActivity {
 
         for (Map.Entry<String, ?> entry : sp.entrySet()) {
             Button btn = new Button(this);
-            btn.setOnClickListener(getOnClickDoSomething(btn_login, entry.getKey(),entry.getValue().toString()));
+            btn.setOnClickListener(getOnClickDoSomething(btn_login, entry.getKey(), entry.getValue().toString()));
             btn.setText(entry.getValue().toString());
             layout.addView(btn);
         }
     }
-    View.OnClickListener getOnClickDoSomething(Button btn, String name, String email2)  {
+
+    View.OnClickListener getOnClickDoSomething(Button btn, String name, String email2) {
         return v -> {
-            String[] arr = name.split("_",3);
+            String[] arr = name.split("_", 3);
             first_name = arr[0];
             last_name = arr[1];
             email = email2;
+            Log.e("????", email);
+            Log.e("????", email2);
+
             id = Integer.parseInt(arr[2]);
 
             btn.setText("Login as " + arr[0] + " " + arr[1]);
@@ -138,11 +142,12 @@ public class AccountActivity extends AppCompatActivity {
         queue.add(studentRequest);
     }
 
-    public void send_back(){
+    public void send_back() {
         Intent result = new Intent();
         result.putExtra("first", first_name);
         result.putExtra("last", last_name);
         MainActivity.activeEmail = email;
+        Log.e("????", MainActivity.activeEmail);
         MainActivity.activeId = id;
         setResult(RESULT_OK, result);
         finish();

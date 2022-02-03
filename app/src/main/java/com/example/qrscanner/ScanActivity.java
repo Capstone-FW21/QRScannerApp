@@ -28,33 +28,41 @@ public class ScanActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras(); //get QR from main activities
         String value = "";
-        String room = "";
-
-
+        String scanned_id = "";
+        String activeEmail = "";
         if (extras == null) {
             finish();
             return;
         }
+        activeEmail = extras.getString("activeEmail");
         value = extras.getString("key");
-        try {
-            String[] arr = value.split("=", 2);
-            room = arr[1];
-        } catch (Exception e) {
-            value = "No QR scanned or invalid QR code";
-            finish();
+        boolean personal = value.startsWith("personal_scan://");
+        Log.e("DEBUG", "IS personal? " + personal);
+        if (personal) {
+            scanned_id = value.split("://")[1];
+        } else {
+            try {
+                String[] arr = value.split("=", 2);
+                scanned_id = arr[1];
+            } catch (Exception e) {
+                value = "No QR scanned or invalid QR code";
+                finish();
+            }
+            if (scanned_id.equalsIgnoreCase("")) {
+                finish();
+            }
         }
-        if (room.equalsIgnoreCase("")) {
-            finish();
-        }
-
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JSONObject bodyObject = new JSONObject();
 
-
         try {
-            Log.e("adas",room);
-            bodyObject.put("scan", new JSONObject().put("type", "ROOM").put("email", MainActivity.activeEmail).put("scanned_id", room));
+            Log.e("adas",scanned_id);
+            JSONObject scanObject = new JSONObject().put("type", (personal ? "PERSONAL" : "ROOM")).put("email", activeEmail).put("scanned_id", scanned_id);
+            bodyObject.put("scan", scanObject);
+            Log.e("DEBUG", "Json String: " + bodyObject.toString());
+            Log.e("DEBUG", "Json String: " + scanObject.toString());
+            Log.e("DEBUG", activeEmail);
         } catch (JSONException e) {
             e.printStackTrace();
             finish();

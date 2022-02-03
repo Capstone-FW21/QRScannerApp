@@ -59,7 +59,15 @@ public class CameraActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             url = result.getText();
-
+                            Log.e("!!!!!", url);
+                            if (url.startsWith("personal_scan://")) {
+                                Intent getIntent = new Intent(getApplicationContext(), ScanActivity.class);
+                                getIntent.putExtra("key", url);
+                                getIntent.putExtra("activeEmail", MainActivity.activeEmail);
+                                startActivity(getIntent);
+                                finish();
+                                return;
+                            }
                             String[] arr = url.split("\\?",2);
                             String[] arr2 = arr[1].split("=",2);
                             Log.e("arr", arr2[0]);
@@ -67,6 +75,7 @@ public class CameraActivity extends AppCompatActivity {
                                 //Toast.makeText(CameraActivity.this, url, Toast.LENGTH_SHORT).show();
                                 Intent getIntent = new Intent(getApplicationContext(), ScanActivity.class);
                                 getIntent.putExtra("key", url);
+                                getIntent.putExtra("activeEmail", MainActivity.activeEmail);
                                 startActivity(getIntent);
                                 finish();
                             }

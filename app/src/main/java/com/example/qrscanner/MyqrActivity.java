@@ -26,7 +26,7 @@ public class MyqrActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Scan me");
         try{
 
-            BitMatrix bitMatrix = mfw.encode(MainActivity.activeEmail, BarcodeFormat.QR_CODE,500,500);
+            BitMatrix bitMatrix = mfw.encode("personal_scan://" + MainActivity.activeEmail, BarcodeFormat.QR_CODE,500,500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             myqr.setImageBitmap(bitmap);
