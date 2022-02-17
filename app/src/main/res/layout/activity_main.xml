@@ -4,82 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Intropage">
 
-    <androidx.constraintlayout.widget.Group
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="myqr_btn,help_btn,account_btn"
-        app:layout_constraintBottom_toTopOf="@+id/camera_btn"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/myqr_btn"
-        android:layout_width="351dp"
-        android:layout_height="85dp"
-        android:text="@string/my_qr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_btn" />
-
-    <Button
-        android:id="@+id/help_btn"
-        android:layout_width="351dp"
-        android:layout_height="85dp"
-        android:text="@string/help"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myqr_btn" />
-
-    <Button
-        android:id="@+id/setting_btn"
-        android:layout_width="351dp"
-        android:layout_height="85dp"
-        android:text="@string/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/help_btn" />
-
-    <Button
-        android:id="@+id/account_btn"
-        android:layout_width="351dp"
-        android:layout_height="85dp"
-        android:text="@string/account_manager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/camera_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:contentDescription="@string/scan_qr_button"
-        android:focusable="true"
-        app:backgroundTint="@color/purple_500"
-        app:fabCustomSize="90dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="1.0"
-        app:maxImageSize="60dp"
-        app:srcCompat="@drawable/qr_foreground"
-        app:tint="@android:color/white" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="271dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/covid_tracking_capstone_team_2022"
-        android:textAlignment="center"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_btn" />
+        app:srcCompat="@drawable/traceme" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

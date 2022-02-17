@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRScanner">
         <activity
-            android:name=".Intropage"
+            android:name=".RoomActivity"
             android:exported="false" />
+        <activity
+            android:name=".HubActivity"
+            android:exported="true" />
         <activity
             android:name=".SettingActivity"
             android:exported="false" />

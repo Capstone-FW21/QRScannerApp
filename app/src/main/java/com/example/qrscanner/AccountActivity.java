@@ -93,8 +93,6 @@ public class AccountActivity extends AppCompatActivity {
             first_name = arr[0];
             last_name = arr[1];
             email = email2;
-            Log.e("????", email);
-            Log.e("????", email2);
 
             id = Integer.parseInt(arr[2]);
 
@@ -150,8 +148,16 @@ public class AccountActivity extends AppCompatActivity {
         Log.e("????", MainActivity.activeEmail);
         MainActivity.activeId = id;
         setResult(RESULT_OK, result);
+        set_last_log();
         finish();
     }
 
+    public void set_last_log(){
+        SharedPreferences last_log = getSharedPreferences("last_log", MODE_PRIVATE);
+        last_log.edit().clear().commit();
+        SharedPreferences.Editor editor = last_log.edit();
+        editor.putString(first_name + "_" + last_name + "_" + id, email);
+        editor.commit();
+    }
 
 }

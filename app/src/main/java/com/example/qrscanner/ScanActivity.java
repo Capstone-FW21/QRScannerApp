@@ -2,6 +2,7 @@ package com.example.qrscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +20,9 @@ import org.json.JSONObject;
 
 
 public class ScanActivity extends AppCompatActivity {
+
+    public static int x = 0;
+    public static int y = 0;
 
 
     @Override
@@ -41,9 +45,16 @@ public class ScanActivity extends AppCompatActivity {
         if (personal) {
             scanned_id = value.split("://")[1];
         } else {
+
             try {
                 String[] arr = value.split("=", 2);
                 scanned_id = arr[1];
+
+                Intent getIntent = new Intent(getApplicationContext(),RoomActivity.class);
+                getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                getIntent.putExtra("room",scanned_id);
+                startActivity(getIntent);
+
             } catch (Exception e) {
                 value = "No QR scanned or invalid QR code";
                 finish();
@@ -57,7 +68,7 @@ public class ScanActivity extends AppCompatActivity {
         JSONObject bodyObject = new JSONObject();
 
         try {
-            Log.e("adas",scanned_id);
+            Log.e("scanned_id",scanned_id);
             JSONObject scanObject = new JSONObject().put("type", (personal ? "PERSONAL" : "ROOM")).put("email", activeEmail).put("scanned_id", scanned_id);
             bodyObject.put("scan", scanObject);
             Log.e("DEBUG", "Json String: " + bodyObject.toString());
