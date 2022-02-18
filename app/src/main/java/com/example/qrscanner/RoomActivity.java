@@ -2,27 +2,56 @@ package com.example.qrscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
+
 public class RoomActivity extends AppCompatActivity implements View.OnTouchListener {
+
+    private String x="20";
+    private String y="20";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        getSupportActionBar().hide();
         FrameLayout fl = findViewById(R.id.fr);
-        drawRoom dr = new drawRoom(this,150,100);
+
+        x = getIntent().getExtras().getString("x");
+        y = getIntent().getExtras().getString("y");
+
+        Log.e("x",x);
+        Log.e("y",y);
+
+        drawRoom dr = new drawRoom(this,Integer.parseInt(x),Integer.parseInt(y));
         dr.setOnTouchListener(this);
+
+
         fl.addView(dr);
 
-
+        Button btn_here = findViewById(R.id.submit_btn);
+        btn_here.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     float dX, dY;
@@ -49,12 +78,6 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
                 return false;
         }
         return true;
-    }
-
-    public void get_room_size(){
-        String room = getIntent().getExtras().getString("room");
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/room?room_id=" + room;
     }
 
 }

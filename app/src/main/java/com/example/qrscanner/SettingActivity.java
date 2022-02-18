@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class SettingActivity extends AppCompatActivity {
@@ -22,13 +24,11 @@ public class SettingActivity extends AppCompatActivity {
         Button rm_acc_btn = findViewById(R.id.rm_accounts);
         rm_acc_btn.setOnClickListener(v -> {
 
-            //Toast.makeText(SettingActivity.this, "Account Created!", Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
             builder.setCancelable(true);
             builder.setTitle("Confirm all account deletion");
             builder.setMessage("WIP, will not delete account yet");
             builder.setPositiveButton("Confirm", (dialog, which) -> {
-                //Toast.makeText(SettingActivity.this, "Confirmed", Toast.LENGTH_SHORT).show();
 
                 if(MainActivity.name == null) {
                     accountList.edit().clear().commit();
@@ -53,6 +53,28 @@ public class SettingActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+        });
+
+        Switch rmbr = findViewById(R.id.remember);
+        rmbr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("remember");
+                    editor.putBoolean("remember",true);
+                    editor.commit();
+                }
+                else{
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("remember");
+                    editor.putBoolean("remember",false);
+                    editor.commit();
+                }
+
+            }
+
         });
     }
 }

@@ -145,7 +145,7 @@ public class AccountActivity extends AppCompatActivity {
         result.putExtra("first", first_name);
         result.putExtra("last", last_name);
         MainActivity.activeEmail = email;
-        Log.e("????", MainActivity.activeEmail);
+        //Log.e("????", MainActivity.activeEmail);
         MainActivity.activeId = id;
         setResult(RESULT_OK, result);
         set_last_log();

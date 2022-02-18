@@ -18,11 +18,14 @@ import com.example.qrscanner.requests.JSONRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 
 public class ScanActivity extends AppCompatActivity {
 
-    public static int x = 0;
-    public static int y = 0;
+    public static int xcor = 0;
+    public static int ycor = 0;
+    public static String test = "helo";
 
 
     @Override
@@ -41,7 +44,8 @@ public class ScanActivity extends AppCompatActivity {
         activeEmail = extras.getString("activeEmail");
         value = extras.getString("key");
         boolean personal = value.startsWith("personal_scan://");
-        Log.e("DEBUG", "IS personal? " + personal);
+        String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data";
+
         if (personal) {
             scanned_id = value.split("://")[1];
         } else {
@@ -50,10 +54,17 @@ public class ScanActivity extends AppCompatActivity {
                 String[] arr = value.split("=", 2);
                 scanned_id = arr[1];
 
-                Intent getIntent = new Intent(getApplicationContext(),RoomActivity.class);
+
+
+                Intent getIntent = new Intent(getApplicationContext(),Scan2roomActivity.class);
                 getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 getIntent.putExtra("room",scanned_id);
                 startActivity(getIntent);
+                //Log.e("tetst", String.valueOf(xcor));
+                //to add, room coordinate selection
+                // get room size
+                //append url to include x,y
+                url += "?xcoord=" + random(50) + "&ycoord=" + random(50); //temporary coordinate data, its randomize between 0-50, room activity WIP
 
             } catch (Exception e) {
                 value = "No QR scanned or invalid QR code";
@@ -68,17 +79,17 @@ public class ScanActivity extends AppCompatActivity {
         JSONObject bodyObject = new JSONObject();
 
         try {
-            Log.e("scanned_id",scanned_id);
+
             JSONObject scanObject = new JSONObject().put("type", (personal ? "PERSONAL" : "ROOM")).put("email", activeEmail).put("scanned_id", scanned_id);
             bodyObject.put("scan", scanObject);
-            Log.e("DEBUG", "Json String: " + bodyObject.toString());
-            Log.e("DEBUG", "Json String: " + scanObject.toString());
-            Log.e("DEBUG", activeEmail);
         } catch (JSONException e) {
             e.printStackTrace();
             finish();
         }
-        StringRequest request = new JSONRequest(Request.Method.POST, "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data", bodyObject, new com.android.volley.Response.Listener<String>() {
+
+
+
+        StringRequest request = new JSONRequest(Request.Method.POST, url, bodyObject, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.v("RESPONSE", response);
@@ -102,4 +113,12 @@ public class ScanActivity extends AppCompatActivity {
 
 
     }
+
+    //to be deleted, temporary function for coordinate generation
+    public int random(int max){
+        final int random = new Random().nextInt((max - 1) + 1) + 1;
+        return random;
+    }
+    //=============================================================
+
 }

@@ -55,12 +55,16 @@
 
     <FrameLayout
         android:id="@+id/fr"
-        android:layout_width="389dp"
-        android:layout_height="590dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="390dp"
+        android:layout_height="602dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/submit_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.991">
 
     </FrameLayout>
 

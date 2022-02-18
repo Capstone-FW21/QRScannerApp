@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.Map;
@@ -30,6 +32,7 @@ public class HubActivity extends AppCompatActivity {
         File f = new File(
                 "/data/data/com.example.qrscanner/shared_prefs/last_log.xml");
         if (f.exists() && MainActivity.persist_login) {
+            Log.e("HubPersistlog", String.valueOf(MainActivity.persist_login));
             SharedPreferences last_log = getSharedPreferences("last_log", MODE_PRIVATE);
             Map<String, ?> ll = last_log.getAll();
             if(ll != null) {
@@ -38,9 +41,12 @@ public class HubActivity extends AppCompatActivity {
                     MainActivity.name = arr[0] + " " + arr[1];
                     MainActivity.activeId = Integer.parseInt(arr[2]);
                     MainActivity.activeEmail = entry.getValue().toString();
-                    Toast.makeText(HubActivity.this, MainActivity.activeEmail, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(HubActivity.this, MainActivity.activeEmail, Toast.LENGTH_LONG).show();
                     getSupportActionBar().setTitle(MainActivity.name);
                 }
+                View a = findViewById(R.id.textView);
+                Snackbar.make(a, "Welcome back " + MainActivity.name, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
             else{
                 Toast.makeText(HubActivity.this, "no last login", Toast.LENGTH_LONG).show();
