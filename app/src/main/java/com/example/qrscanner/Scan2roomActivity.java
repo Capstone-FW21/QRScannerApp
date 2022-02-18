@@ -15,6 +15,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//this activity bridges the scan activity for room scanning and the room cordinate selection activity
+// scanactivity(scanroom) -> scan2roomactivity -> roomactivity
 public class Scan2roomActivity extends AppCompatActivity {
 
     @Override
