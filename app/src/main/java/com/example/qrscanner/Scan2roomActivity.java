@@ -24,6 +24,7 @@ public class Scan2roomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan2room);
         String room = getIntent().getExtras().getString("room");
+        String aEmail = getIntent().getExtras().getString("email");
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/room?room_id=" + room;
         StringRequest studentRequest = new StringRequest(Request.Method.GET, url,
@@ -40,7 +41,10 @@ public class Scan2roomActivity extends AppCompatActivity {
                         getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         getIntent.putExtra("x",arr2[1]);
                         getIntent.putExtra("y",arr2[3]);
+                        getIntent.putExtra("room",room);
+                        getIntent.putExtra("email",aEmail);
                         startActivity(getIntent);
+                        finish();
 
 
 
@@ -51,5 +55,7 @@ public class Scan2roomActivity extends AppCompatActivity {
 
                 }, error -> Toast.makeText(Scan2roomActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show());
         queue.add(studentRequest);
+        finish();
     }
+
 }

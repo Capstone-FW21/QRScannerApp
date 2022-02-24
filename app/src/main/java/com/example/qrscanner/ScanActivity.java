@@ -25,7 +25,7 @@ public class ScanActivity extends AppCompatActivity {
 
     public static int xcor = 0;
     public static int ycor = 0;
-    public static String test = "helo";
+    public static String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data";
 
 
     @Override
@@ -44,7 +44,7 @@ public class ScanActivity extends AppCompatActivity {
         activeEmail = extras.getString("activeEmail");
         value = extras.getString("key");
         boolean personal = value.startsWith("personal_scan://");
-        String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data";
+        //String url = "https://contact-api-dev-3sujih4x4a-uc.a.run.app/record_data";
 
         if (personal) {
             scanned_id = value.split("://")[1];
@@ -59,12 +59,13 @@ public class ScanActivity extends AppCompatActivity {
                 Intent getIntent = new Intent(getApplicationContext(),Scan2roomActivity.class);
                 getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 getIntent.putExtra("room",scanned_id);
+                getIntent.putExtra("email",activeEmail);
                 startActivity(getIntent);
                 //Log.e("tetst", String.valueOf(xcor));
                 //to add, room coordinate selection
                 // get room size
                 //append url to include x,y
-                url += "?xcoord=" + random(50) + "&ycoord=" + random(50); //temporary coordinate data, its randomize between 0-50, room activity WIP
+                //url += "?xcoord=" + random(50) + "&ycoord=" + random(50); //temporary coordinate data, its randomize between 0-50, room activity WIP
 
             } catch (Exception e) {
                 value = "No QR scanned or invalid QR code";
@@ -75,42 +76,43 @@ public class ScanActivity extends AppCompatActivity {
             }
         }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JSONObject bodyObject = new JSONObject();
+        if(personal) {
+            RequestQueue queue = Volley.newRequestQueue(this);
+            JSONObject bodyObject = new JSONObject();
 
-        try {
+            try {
 
-            JSONObject scanObject = new JSONObject().put("type", (personal ? "PERSONAL" : "ROOM")).put("email", activeEmail).put("scanned_id", scanned_id);
-            bodyObject.put("scan", scanObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
+                JSONObject scanObject = new JSONObject().put("type", (personal ? "PERSONAL" : "ROOM")).put("email", activeEmail).put("scanned_id", scanned_id);
+                bodyObject.put("scan", scanObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                finish();
+            }
+
+
+            StringRequest request = new JSONRequest(Request.Method.POST, url, bodyObject, new com.android.volley.Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.v("RESPONSE", response);
+                    Toast toast = Toast.makeText(ScanActivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
+                    toast.show();
+                    getSupportActionBar().setTitle("Room tracking Added");
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    //Log.e("RESPONSE", error.getMessage());
+                    Toast toast = Toast.makeText(ScanActivity.this, "Error Submitting!\n" + error.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
+
+            queue.add(request);
+            queue.start();
             finish();
         }
-
-
-
-        StringRequest request = new JSONRequest(Request.Method.POST, url, bodyObject, new com.android.volley.Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.v("RESPONSE", response);
-                Toast toast = Toast.makeText(ScanActivity.this, "Successfully submitted!", Toast.LENGTH_LONG);
-                toast.show();
-                getSupportActionBar().setTitle("Room tracking Added");
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                //Log.e("RESPONSE", error.getMessage());
-                Toast toast = Toast.makeText(ScanActivity.this, "Error Submitting!\n" + error.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
-
-        queue.add(request);
-        queue.start();
         finish();
-
 
     }
 
@@ -121,4 +123,8 @@ public class ScanActivity extends AppCompatActivity {
     }
     //=============================================================
 
+
+
 }
+
+

@@ -54,19 +54,4 @@ public class drawRoom extends View {
         return super.onTouchEvent(event);
     }
 
-    public void setXcor(int xcor) {
-        this.xcor = xcor;
-    }
-
-    public void setYcor(int ycor) {
-        this.ycor = ycor;
-    }
-
-    public int getXcor() {
-        return xcor;
-    }
-
-    public int getYcor() {
-        return ycor;
-    }
 }

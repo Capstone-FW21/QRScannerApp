@@ -21,7 +21,8 @@
         android:id="@+id/y_cor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="0"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/submit_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="X: "
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/submit_btn"
         app:layout_constraintEnd_toStartOf="@+id/x_cor"
         app:layout_constraintHorizontal_bias="1.0"
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Y:"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/submit_btn"
         app:layout_constraintStart_toEndOf="@+id/submit_btn" />
 
@@ -49,7 +52,8 @@
         android:id="@+id/x_cor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="0"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/submit_btn"
         app:layout_constraintEnd_toStartOf="@+id/submit_btn" />
 
