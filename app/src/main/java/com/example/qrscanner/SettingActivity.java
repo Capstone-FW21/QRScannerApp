@@ -11,12 +11,17 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.Map;
+
 public class SettingActivity extends AppCompatActivity {
+
+    Boolean save = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        setUI();
         getSupportActionBar().setTitle("Settings (WIP)");
         SharedPreferences accountList = getSharedPreferences("account_list", MODE_PRIVATE);
 
@@ -76,5 +81,52 @@ public class SettingActivity extends AppCompatActivity {
             }
 
         });
+
+        Switch title = findViewById(R.id.titlepage);
+        title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("title");
+                    editor.putBoolean("title",true);
+                    editor.commit();
+                }
+                else{
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("title");
+                    editor.putBoolean("title",false);
+                    editor.commit();
+                }
+
+            }
+
+        });
+
+
+    }
+
+    public void setUI(){
+        SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+        Map<String, ?> sp = cf.getAll();
+
+        for (Map.Entry<String, ?> entry : sp.entrySet()) {
+            if(entry.getKey().compareTo("remember") == 0){
+                save = Boolean.parseBoolean(entry.getValue().toString());
+                Switch sw = findViewById(R.id.remember);
+                sw.setChecked(save);
+            }
+            if(entry.getKey().compareTo("title") == 0){
+                save = Boolean.parseBoolean(entry.getValue().toString());
+                Switch sw = findViewById(R.id.titlepage);
+                sw.setChecked(save);
+            }
+            if(entry.getKey().compareTo("hub") == 0){
+                save = Boolean.parseBoolean(entry.getValue().toString());
+                Switch sw = findViewById(R.id.hub);
+                sw.setChecked(save);
+            }
+        }
     }
 }

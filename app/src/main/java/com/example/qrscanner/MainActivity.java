@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -19,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public static String activeEmail = null;
     public static int activeId = 0;
     public static String name = null;
-    public static int wait_s = 100;
+    public static int wait_s = 2000;
     public static boolean persist_login = false;
 
     @Override
@@ -65,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
                         persist_login = true;
                     else
                         persist_login = false;
+                }
+                if(entry.getKey().compareTo("title") == 0){
+                    if(entry.getValue().toString().compareTo("true") == 0)
+                        wait_s = 2000;
+                    else
+                        wait_s = 100;
                 }
             }
         }

@@ -23,7 +23,9 @@
             android:minHeight="48dp"
             android:paddingTop="10dp"
             android:showText="false"
-            android:text="Hub" />
+            android:text="Hub"
+            android:visibility="visible"
+            tools:visibility="visible" />
 
         <Switch
             android:id="@+id/titlepage"

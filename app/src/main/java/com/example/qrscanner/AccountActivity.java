@@ -120,8 +120,6 @@ public class AccountActivity extends AppCompatActivity {
                         last_name = student.getString("last_name");
                         email = student.getString("email");
 
-                        //data_display.setText("Name: " + first_name + " " + last_name + "\nEmail: " + email+ "\nid: " + id);
-
 
                         //save account to locally
                         SharedPreferences sharedPreferences = getSharedPreferences("account_list", MODE_PRIVATE);

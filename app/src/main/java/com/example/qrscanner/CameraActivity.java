@@ -93,14 +93,11 @@ public class CameraActivity extends AppCompatActivity {
 
         Button web_btn = findViewById(R.id.open_web);
         web_btn.setOnClickListener(v -> {
-            String url = "http://34.134.138.81/";
+            String url = "http://34.134.138.81/?email=" + MainActivity.activeEmail;
             Intent web = new Intent(Intent.ACTION_VIEW);
             web.setData(Uri.parse(url));
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("email", MainActivity.activeEmail);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(CameraActivity.this, "Email Copied!", Toast.LENGTH_SHORT).show();
             startActivity(web);
+
         });
 
     }
@@ -125,5 +122,11 @@ public class CameraActivity extends AppCompatActivity {
     protected void onPause() {
         mCodeScanner.releaseResources();
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCodeScanner.startPreview();
     }
 }

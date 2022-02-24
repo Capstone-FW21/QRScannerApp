@@ -23,9 +23,7 @@ public class HubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if (savedInstanceState != null) {
-            MainActivity.activeEmail = savedInstanceState.getString("activeEmail");
-        }*/
+
         setContentView(R.layout.activity_hub);
         getSupportActionBar().setTitle("Covid-19 Tracker");
 
@@ -99,11 +97,6 @@ public class HubActivity extends AppCompatActivity {
         });
     }
 
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("activeEmail", MainActivity.activeEmail);
-        super.onSaveInstanceState(outState);
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
