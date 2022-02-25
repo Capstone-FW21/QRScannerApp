@@ -2,13 +2,9 @@ package com.example.qrscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +23,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 public class RoomActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private String x="20";
@@ -37,6 +31,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     float dX, dY;
     float dXsubmit = 0, dYsubmit = 0;
     Boolean touch = false;
+    int xint = 0;
+    int yint = 0;
+    int scalingD = 0;
+    int scalingU = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,25 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
         Log.e("x",x);
         Log.e("y",y);
 
-        drawRoom dr = new drawRoom(this,Integer.parseInt(x),Integer.parseInt(y));
+        xint = Integer.parseInt(x);
+        yint = Integer.parseInt(y);
+
+        if(xint > 300 || yint > 300) {
+            while (xint > 300 || yint > 300) {
+                xint = xint / 2;
+                yint = yint / 2;
+                scalingD++;
+            }
+        }
+        if(xint < 30 || yint < 30){
+            while (xint < 30 || yint < 30) {
+                xint = xint * 2;
+                yint = yint * 2;
+                scalingU++;
+            }
+        }
+
+        drawRoom dr = new drawRoom(this,xint,yint);
         dr.setOnTouchListener(this);
 
 
@@ -79,8 +95,8 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
         dX = ((view.getX() - event.getRawX())*-1)/6;
         dY = ((view.getY() - event.getY())*-1)/6;
 
-        int roomSizeX = Integer.parseInt(x);
-        int roomSizeY = Integer.parseInt(y);
+        int roomSizeX = xint;
+        int roomSizeY = yint;
 
         int boundx = (Resources.getSystem().getDisplayMetrics().widthPixels)/6; //1080 test subject
         //int boundy = (Resources.getSystem().getDisplayMetrics().heightPixels)/6; //2040 text subject
@@ -93,12 +109,34 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
 
         if(dX >= 0 && dX <= roomSizeX && dY >= 0 && dY <= roomSizeY){
             int fdX = (int) dX;
+
+            if(scalingD != 0) {
+                fdX = fdX * (scalingD * 2);
+            }
+
+            if(scalingU != 0) {
+                for(int i = 0; i<scalingU;i++){
+                    fdX = fdX / 2;
+                }
+            }
+
             String xx = String.valueOf(fdX);
             dXsubmit = dX;
             TextView xc = findViewById(R.id.x_cor);
             xc.setText(xx);
 
             int fdY = (int) dY;
+
+            if(scalingD != 0) {
+                fdY = fdY * (scalingD * 2);
+            }
+
+            if(scalingU != 0) {
+                for(int i = 0; i<scalingU;i++){
+                    fdY = fdY / 2;
+                }
+            }
+
             String yy = String.valueOf(fdY);
             Log.e("yT",yy);
             dYsubmit = dY;
