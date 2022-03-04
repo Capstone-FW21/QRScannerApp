@@ -151,9 +151,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void submit_room_with_coordinate(){
-        int dx = (int) dX;
-        int dy = (int) dY;
-        roomURL += "?xcoord="+ dXsubmit + "&ycoord=" + dYsubmit ;
+        roomURL += "?xcoord="+ dXsubmit /xint + "&ycoord=" + dYsubmit / yint ;
         Log.e("roomURL" ,roomURL);
         RequestQueue queue = Volley.newRequestQueue(this);
         JSONObject bodyObject = new JSONObject();
