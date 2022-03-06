@@ -19,6 +19,16 @@ public class MyqrActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_myqr);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_myqr);
+        }
+
         setContentView(R.layout.activity_myqr);
 
         ImageView myqr = findViewById(R.id.myqr_pic);
