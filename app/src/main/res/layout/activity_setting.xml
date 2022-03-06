@@ -16,16 +16,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Switch
-            android:id="@+id/hub"
+            android:id="@+id/darklight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:minHeight="48dp"
             android:paddingTop="10dp"
             android:showText="false"
-            android:text="Hub"
+            android:text="Dark mode"
             android:visibility="visible"
-            tools:visibility="visible" />
+            tools:visibility="visible"/>
 
         <Switch
             android:id="@+id/titlepage"

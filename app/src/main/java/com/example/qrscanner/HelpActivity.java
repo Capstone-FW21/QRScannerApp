@@ -10,7 +10,14 @@ public class HelpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_help);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_help);
+        }
 
         getSupportActionBar().setTitle("Help");
         TextView help = findViewById(R.id.helptext);

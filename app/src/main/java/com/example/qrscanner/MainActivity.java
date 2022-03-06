@@ -19,11 +19,13 @@ public class MainActivity extends AppCompatActivity {
     public static String name = null;
     public static int wait_s = 2000;
     public static boolean persist_login = false;
+    public static int darklight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         CheckSetting();
         getSupportActionBar().hide();
         ImageView imageView = findViewById(R.id.imageView);
@@ -69,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         wait_s = 2000;
                     else
                         wait_s = 100;
+                }
+                if(entry.getKey().compareTo("darklight") == 0){
+                    if(entry.getValue().toString().compareTo("true") == 0)
+                        darklight = 1;
+                    else
+                        darklight = 0;
                 }
             }
         }

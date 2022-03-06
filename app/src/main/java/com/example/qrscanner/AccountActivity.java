@@ -1,6 +1,7 @@
 package com.example.qrscanner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,8 +38,16 @@ public class AccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //setTheme(R.style.Dark);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_account);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_account);
+        }
         getSupportActionBar().setTitle("Account Manager");
         pbar = findViewById(R.id.pBar);
 
@@ -83,6 +92,7 @@ public class AccountActivity extends AppCompatActivity {
             Button btn = new Button(this);
             btn.setOnClickListener(getOnClickDoSomething(btn_login, entry.getKey(), entry.getValue().toString()));
             btn.setText(entry.getValue().toString());
+            btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
             layout.addView(btn);
         }
     }

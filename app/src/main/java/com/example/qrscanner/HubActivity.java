@@ -22,7 +22,14 @@ public class HubActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_setting);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_setting);
+        }
 
         setContentView(R.layout.activity_hub);
         getSupportActionBar().setTitle("Covid-19 Tracker");
@@ -80,7 +87,7 @@ public class HubActivity extends AppCompatActivity {
         //Setting button onclick
         Button btn_setting = findViewById(R.id.setting_btn);
         btn_setting.setOnClickListener(v -> {
-            StartActivity(SettingActivity.class);
+            StartActivityR(SettingActivity.class,555);
         });
 
 
@@ -109,6 +116,9 @@ public class HubActivity extends AppCompatActivity {
                 //Toast.makeText(MainActivity.this, activeEmail, Toast.LENGTH_LONG).show();
             }
         }
+        if (requestCode == 555) {
+                recreate();
+            }
     }
 
     public void StartActivity(Class<?> the_activity){
@@ -122,6 +132,7 @@ public class HubActivity extends AppCompatActivity {
         getIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityForResult(getIntent, code);
     }
+
 
 
 

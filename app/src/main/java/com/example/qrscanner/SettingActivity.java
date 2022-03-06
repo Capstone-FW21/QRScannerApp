@@ -2,10 +2,14 @@ package com.example.qrscanner;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -19,8 +23,20 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_setting);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_setting);
+        }
+
+        Log.e("darklight", String.valueOf(MainActivity.darklight));
         setUI();
         getSupportActionBar().setTitle("Settings (WIP)");
         SharedPreferences accountList = getSharedPreferences("account_list", MODE_PRIVATE);
@@ -104,6 +120,54 @@ public class SettingActivity extends AppCompatActivity {
 
         });
 
+        Switch dark = findViewById(R.id.darklight);
+        dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("darklight");
+                    editor.putBoolean("darklight",true);
+                    editor.commit();
+                    MainActivity.darklight = 1;
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    overridePendingTransition(0, 0);
+
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+                else{
+                    SharedPreferences cf = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = cf.edit();
+                    editor.remove("darklight");
+                    editor.putBoolean("darklight",false);
+                    editor.commit();
+                    MainActivity.darklight = 0;
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    overridePendingTransition(0, 0);
+
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+
+            }
+
+        });
+
+        if(MainActivity.darklight == 1) {
+            rmbr.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            title.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            dark.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        }
+        else{
+            rmbr.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+            title.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+            dark.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+        }
 
     }
 
@@ -122,9 +186,9 @@ public class SettingActivity extends AppCompatActivity {
                 Switch sw = findViewById(R.id.titlepage);
                 sw.setChecked(save);
             }
-            if(entry.getKey().compareTo("hub") == 0){
+            if(entry.getKey().compareTo("darklight") == 0){
                 save = Boolean.parseBoolean(entry.getValue().toString());
-                Switch sw = findViewById(R.id.hub);
+                Switch sw = findViewById(R.id.darklight);
                 sw.setChecked(save);
             }
         }

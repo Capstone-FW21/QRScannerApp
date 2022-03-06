@@ -39,7 +39,14 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room);
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_room);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_room);
+        }
         getSupportActionBar().hide();
         FrameLayout fl = findViewById(R.id.fr);
 

@@ -33,7 +33,14 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+        if(MainActivity.darklight == 1){
+            setTheme(R.style.Dark);
+            setContentView(R.layout.activity_camera);
+        }
+        else{
+            setTheme(R.style.Light);
+            setContentView(R.layout.activity_camera);
+        }
         getSupportActionBar().setTitle("Scan a valid QR");
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
