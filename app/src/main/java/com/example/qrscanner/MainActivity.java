@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static int wait_s = 2000;
     public static boolean persist_login = false;
     public static int darklight = 0;
+    public static boolean welcome = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

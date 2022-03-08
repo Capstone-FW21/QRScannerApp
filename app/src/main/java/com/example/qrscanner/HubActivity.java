@@ -51,8 +51,11 @@ public class HubActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(MainActivity.name);
                 }
                 View a = findViewById(R.id.textView);
-                Snackbar.make(a, "Welcome back " + MainActivity.name, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(MainActivity.welcome) {
+                    Snackbar.make(a, "Welcome back " + MainActivity.name, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    MainActivity.welcome = false;
+                }
                 Button logout = findViewById(R.id.logout);
                 logout.setVisibility(View.VISIBLE);
             }
