@@ -19,6 +19,7 @@ import java.util.Map;
 public class HubActivity extends AppCompatActivity {
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +38,10 @@ public class HubActivity extends AppCompatActivity {
         File f = new File(
                 "/data/data/com.example.qrscanner/shared_prefs/last_log.xml");
         if (f.exists() && MainActivity.persist_login) {
-            Log.e("HubPersistlog", String.valueOf(MainActivity.persist_login));
+            //Log.e("HubPersistlog", String.valueOf(MainActivity.persist_login));
             SharedPreferences last_log = getSharedPreferences("last_log", MODE_PRIVATE);
             Map<String, ?> ll = last_log.getAll();
-            if(ll != null) {
+            if(!ll.isEmpty()) {
                 for (Map.Entry<String, ?> entry : ll.entrySet()) {
                     String arr[] = entry.getKey().split("_", 3);
                     MainActivity.name = arr[0] + " " + arr[1];
@@ -52,9 +53,11 @@ public class HubActivity extends AppCompatActivity {
                 View a = findViewById(R.id.textView);
                 Snackbar.make(a, "Welcome back " + MainActivity.name, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Button logout = findViewById(R.id.logout);
+                logout.setVisibility(View.VISIBLE);
             }
             else{
-                Toast.makeText(HubActivity.this, "no last login", Toast.LENGTH_LONG).show();
+                //Toast.makeText(HubActivity.this, "no last login", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -90,6 +93,20 @@ public class HubActivity extends AppCompatActivity {
             StartActivityR(SettingActivity.class,555);
         });
 
+        Button btn_logout = findViewById(R.id.logout);
+        btn_logout.setOnClickListener(v -> {
+            btn_logout.setVisibility(View.GONE);
+            MainActivity.activeEmail = null;
+            MainActivity.activeId = 0;
+            MainActivity.name = null;
+            getSupportActionBar().setTitle("Covid-19 Tracker");
+            View a = findViewById(R.id.textView);
+            Snackbar.make(a, "You have logged-out, please login to start scanning", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            SharedPreferences last_log = getSharedPreferences("last_log", MODE_PRIVATE);
+            last_log.edit().clear().commit();
+        });
+
 
         //Scan a qr code button on click
         FloatingActionButton camera_btn = findViewById(R.id.camera_btn);
@@ -113,6 +130,8 @@ public class HubActivity extends AppCompatActivity {
                 String name = data.getExtras().getString("first") + " " + data.getExtras().getString("last");
                 getSupportActionBar().setTitle(name);
                 MainActivity.name = name;
+                Button logout = findViewById(R.id.logout);
+                logout.setVisibility(View.VISIBLE);
                 //Toast.makeText(MainActivity.this, activeEmail, Toast.LENGTH_LONG).show();
             }
         }

@@ -41,6 +41,16 @@
         app:layout_constraintTop_toBottomOf="@+id/help_btn" />
 
     <Button
+        android:id="@+id/logout"
+        android:layout_width="351dp"
+        android:layout_height="85dp"
+        android:text="logout"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_btn" />
+
+    <Button
         android:id="@+id/account_btn"
         android:layout_width="351dp"
         android:layout_height="85dp"
@@ -74,12 +84,12 @@
         android:id="@+id/textView"
         android:layout_width="271dp"
         android:layout_height="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:text="@string/covid_tracking_capstone_team_2022"
         android:textAlignment="center"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
